@@ -11,6 +11,7 @@
 
 namespace Flarum\Frontend;
 
+use Flarum\Locale\LocaleManager;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -129,17 +130,24 @@ class Document implements Renderable
     protected $view;
 
     /**
+     * @var LocaleManager
+     */
+    protected $locales;
+
+    /**
      * @var array
      */
     protected $forumApiDocument;
 
     /**
      * @param Factory $view
+     * @param LocaleManager $locales
      * @param array $forumApiDocument
      */
-    public function __construct(Factory $view, array $forumApiDocument)
+    public function __construct(Factory $view, LocaleManager $locales, array $forumApiDocument)
     {
         $this->view = $view;
+        $this->locales = $locales;
         $this->forumApiDocument = $forumApiDocument;
     }
 
@@ -162,8 +170,8 @@ class Document implements Renderable
             'title' => $this->makeTitle(),
             'payload' => $this->payload,
             'layout' => $this->makeLayout(),
-            'language' => $this->language,
-            'direction' => $this->direction,
+            'language' => $this->language ?: $this->locales->getLocale(),
+            'direction' => $this->direction ?: 'ltr',
             'js' => $this->makeJs(),
             'head' => $this->makeHead(),
             'foot' => $this->makeFoot(),

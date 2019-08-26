@@ -13,6 +13,7 @@ namespace Flarum\Frontend;
 
 use Flarum\Api\Client;
 use Flarum\Api\Controller\ShowForumController;
+use Flarum\Locale\LocaleManager;
 use Illuminate\Contracts\View\Factory;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -25,6 +26,11 @@ class Frontend
     protected $view;
 
     /**
+     * @var LocaleManager
+     */
+    protected $locales;
+
+    /**
      * @var Client
      */
     protected $api;
@@ -34,9 +40,10 @@ class Frontend
      */
     protected $content = [];
 
-    public function __construct(Factory $view, Client $api)
+    public function __construct(Factory $view,  LocaleManager $locales, Client $api)
     {
         $this->view = $view;
+        $this->locales = $locales;
         $this->api = $api;
     }
 
@@ -52,7 +59,7 @@ class Frontend
     {
         $forumDocument = $this->getForumDocument($request);
 
-        $document = new Document($this->view, $forumDocument);
+        $document = new Document($this->view, $this->locales, $forumDocument);
 
         $this->populate($document, $request);
 
