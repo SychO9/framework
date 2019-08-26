@@ -40,7 +40,7 @@ class Frontend
      */
     protected $content = [];
 
-    public function __construct(Factory $view,  LocaleManager $locales, Client $api)
+    public function __construct(Factory $view, LocaleManager $locales, Client $api)
     {
         $this->view = $view;
         $this->locales = $locales;
