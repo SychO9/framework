@@ -119,7 +119,7 @@ jobs:
         working-directory: ${{ inputs.frontend_directory }}
 
       - name: JS Checks & Production Build
-        uses: flarum/action-build@3
+        uses: flarum/action-build@sm/test
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           build_script: ${{ inputs.build_script }}
